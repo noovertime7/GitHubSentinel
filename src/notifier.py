@@ -4,6 +4,6 @@ class Notifier:
         self.settings = settings
 
     def notify(self, report):
-        LOG.info("Sending notification.")
+        LOG.info(f'Sending notification: {report}')
         # Implement notification logic, e.g., send email or Slack message
         pass

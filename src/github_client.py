@@ -1,4 +1,5 @@
 import requests
+from pkg.log  import LOG
 
 
 class GitHubClient:
@@ -11,7 +12,12 @@ class GitHubClient:
         }
         updates = {}
         for repo in subscriptions:
-            response = requests.get(f'https://api.github.com/repos/{repo}/events', headers=headers)
+            url = f'https://api.github.com/repos/{repo}/releases/latest'
+            LOG.info(f'fetching {url}')
+
+            response = requests.get(url, headers=headers)
             if response.status_code == 200:
                 updates[repo] = response.json()
+            else:
+                LOG.error(f'failed to fetch {url},msg {response.json()}')
         return updates
