@@ -79,12 +79,12 @@ UPDATE_INTERVAL=86400  # 更新间隔（秒）
 
 ## 👥 作者
 
-[你的名字/组织名称]
+[noovertime7]
 
 ## 📬 联系方式
 
 - 项目问题请提交 [Issue](https://github.com/noovertime7/GithubSentinel/issues)
-- 其他问题请联系 [your-email@example.com]
+- 其他问题请联系 1849539179@qq.com]
 
 ## 🙏 致谢
 
