@@ -1,0 +1,22 @@
+# IDE - IntelliJ IDEA
+.idea/
+.idea/*
+*.iml
+*.iws
+*.ipr
+
+# Ignore files
+.ignore
+
+# Log files
+*.log
+logs/
+log/
+
+# Config files
+config.json
+**/config.json
+
+# Environment variables
+.env
+**/.env
