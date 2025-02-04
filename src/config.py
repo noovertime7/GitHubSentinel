@@ -1,31 +1,23 @@
-from pydantic import Field
-from pydantic_settings import BaseSettings
-from dotenv import load_dotenv
+from dynaconf import Dynaconf
+from pkg.log import LOG
 
-# 加载 .env 文件
-load_dotenv()
+settings = Dynaconf(
+    settings_files=['config.yaml'],  # 配置文件路径
+    environments=True,  # 启用环境支持
+    load_dotenv=False,  # 禁用 .env 文件加载
+)
 
+# 验证必要的配置项
+required_settings = [
+    'github_token',
+    'api_key',
+    'update_interval',
+    'notification_settings',
+    'subscriptions_file'
+]
 
-class NotificationSettings(BaseSettings):
-    enabled: bool = True
-    frequency: str = "daily"
+for setting in required_settings:
+    if not settings.get(setting):
+        raise ValueError(f"Missing required setting: {setting}")
 
-
-class Settings(BaseSettings):
-    github_token: str = Field(..., env='GITHUB_TOKEN')
-    notification_settings: NotificationSettings = NotificationSettings()
-    subscriptions_file: str = Field(default="subscriptions.json",env="SubscriptionsFile")
-    update_interval: int = Field(default=24 * 60 * 60, env='UPDATE_INTERVAL')  # 可以通过环境变量覆盖
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = 'utf-8'
-        case_sensitive = False
-
-
-# 创建全局配置实例
-settings = Settings()
-
-# 使用示例
-# from config import settings
-# print(settings.github_token)
+LOG.info("Configuration loaded successfully")

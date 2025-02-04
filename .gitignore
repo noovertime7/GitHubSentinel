@@ -14,8 +14,8 @@ logs/
 log/
 
 # Config files
-config.json
-**/config.json
+config.yaml
+**/config.yaml
 
 # Environment variables
 .env
