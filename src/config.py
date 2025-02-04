@@ -14,7 +14,7 @@ class NotificationSettings(BaseSettings):
 class Settings(BaseSettings):
     github_token: str = Field(..., env='GITHUB_TOKEN')
     notification_settings: NotificationSettings = NotificationSettings()
-    subscriptions_file: str = "subscriptions.json"
+    subscriptions_file: str = Field(default="subscriptions.json",env="SubscriptionsFile")
     update_interval: int = Field(default=24 * 60 * 60, env='UPDATE_INTERVAL')  # 可以通过环境变量覆盖
 
     class Config:
