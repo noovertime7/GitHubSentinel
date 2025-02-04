@@ -1,3 +1,16 @@
-[
-    "noovertime7/cdocker"
-]
+{
+  "settings": {
+    "days": 30,
+    "auto_sync": true
+  },
+  "repositories": [
+    {
+      "name": "kubernetes/kubernetes",
+      "hours": 1
+    },
+    {
+      "name": "kubernetes/dashboard",
+      "hours": 1
+    }
+  ]
+}

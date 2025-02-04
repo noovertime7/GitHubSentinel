@@ -7,7 +7,6 @@ from report_generator import ReportGenerator
 from llm import LLM
 from subscription_manager import SubscriptionManager
 from pkg.log import LOG
-import threading
 
 
 def run_scheduler(scheduler):
@@ -15,7 +14,11 @@ def run_scheduler(scheduler):
 
 
 def add_subscription(args, subscription_manager):
-    subscription_manager.add_subscription(args.repo)
+    subscription_manager.add_subscription(
+        args.repo,
+        description=args.description,
+        hours=args.hours
+    )
     print(f"Added subscription: {args.repo}")
 
 

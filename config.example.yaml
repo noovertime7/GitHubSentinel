@@ -1,0 +1,8 @@
+default:
+  github_token: "your_github_token_here"
+  api_key: "your_api_key_here"
+  update_interval: 86400
+  notification_settings:
+    enabled: true
+    frequency: "daily"
+  subscriptions_file: "subscriptions.json"

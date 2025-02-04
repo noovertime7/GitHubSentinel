@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "hours": 24,
+    "auto_sync": true
+  },
+  "repositories": [
+    {
+      "name": "owner/repo",
+      "hours": 12
+    },
+    {
+      "name": "another/repo"
+    }
+  ]
+}

@@ -1,39 +1,64 @@
-import os
-import time
-from datetime import date
-
-from llm import LLM
+from datetime import datetime,date
+from pkg.log import LOG
+from src.file_manager import FileManager
 
 class ReportGenerator:
     def __init__(self, llm):
         self.llm = llm
+        self.file_manager = FileManager()
 
     def export_daily_progress(self, repo, updates):
-        file_path = f'{repo.replace("/", "_")}_{date.today()}.md'
-        with open(file_path, 'w',encoding='utf-8') as file:
-            file.write(f"# Daily Progress for {repo} ({date.today()})\n\n")
-            file.write("## Commits\n")
-            for commit in updates['commits']:
-                file.write(f"- {commit}\n")
-            file.write("\n## Issues\n")
-            for issue in updates['issues']:
-                file.write(f"- {issue}\n")
-            file.write("\n## Pull Requests\n")
-            for pr in updates['pull_requests']:
-                file.write(f"- {pr}\n")
-        return file_path
+        # 生成报告内容
+        content = self._generate_content(repo, updates)
+        
+        # 保存报告
+        return self.file_manager.save_report(repo, content, "daily")
+
+    def _generate_content(self, repo, updates):
+        """生成报告内容"""
+        lines = []
+        
+        # 添加仓库基本信息
+        repo_info = updates.get('repo_info', {})
+        if repo_info:
+            lines.append(f"- 从: {repo_info['since']}开始查询")
+            lines.append(f"# {repo_info['name']} 项目日报 ({date.today()})\n")
+            lines.append("## 项目信息")
+            lines.append(f"- 项目描述: {repo_info['description']}")
+            lines.append(f"- 主要语言: {repo_info['language']}")
+            lines.append(f"- Star数量: {repo_info['stars']}")
+            if repo_info['topics']:
+                lines.append(f"- 主题标签: {', '.join(repo_info['topics'])}")
+            lines.append(f"- 最后更新: {repo_info['updated_at']}\n")
+        else:
+            lines.append(f"# Daily Progress for {repo} ({date.today()})\n")
+
+        # 添加更新信息
+        lines.append("## Commits")
+        for commit in updates['commits']:
+            lines.append(f"- {commit}")
+        
+        lines.append("\n## Issues")
+        for issue in updates['issues']:
+            lines.append(f"- {issue}")
+        
+        lines.append("\n## Pull Requests")
+        for pr in updates['pull_requests']:
+            lines.append(f"- {pr}")
+
+        return '\n'.join(lines)
 
     def generate_daily_report(self, markdown_file_path):
-        with open(markdown_file_path, 'r',encoding='utf-8') as file:
+        # 读取原始报告
+        with open(markdown_file_path, 'r', encoding='utf-8') as file:
             markdown_content = file.read()
 
-        report = self.llm.generate_daily_report(markdown_content)
+        # 生成AI报告
+        report = self.llm.generate(markdown_content)
 
-        report_file_path = os.path.splitext(markdown_file_path)[0] + "_report.md"
-        with open(report_file_path, 'w',encoding='utf-8') as report_file:
-            report_file.write(report)
-
-        print(f"推理成功 保存到文件： {report_file_path}")
+        # 保存AI报告
+        ai_report_path = self.file_manager.save_ai_report(markdown_file_path, report)
+        LOG.info(f"推理成功 保存到文件： {ai_report_path}")
 
     def parse_section(self, content, section):
         lines = content.split("\n")
