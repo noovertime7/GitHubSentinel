@@ -16,12 +16,13 @@ GitHub Sentinel 是一款开源的 AI Agent 工具，专为开发者和项目管
 
 - Python 3.8+
 - GitHub Personal Access Token
+- OpenAI API Key
 
 ### 安装
 
 1. 克隆仓库
 ```bash
-git clone https://github.com/yourusername/github-sentinel.git
+git clone https://github.com/noovertime7/github-sentinel.git
 cd github-sentinel
 ```
 
@@ -32,13 +33,33 @@ pip install -r requirements.txt
 
 3. 配置环境
 ```bash
-cp .env.example .env
+# 复制配置文件模板
+cp config.example.yaml config.yaml
+cp subscriptions.example.json subscriptions.json
 ```
 
-编辑 `.env` 文件，填入你的 GitHub Token 和其他配置：
-```env
-GITHUB_TOKEN=your_github_token_here
-UPDATE_INTERVAL=86400  # 更新间隔（秒）
+4. 编辑配置文件
+- 修改 `config.yaml`：
+```yaml
+github_token: "your_github_token"    # GitHub Personal Access Token
+api_key: "your_openai_api_key"       # OpenAI API Key
+update_interval: 3600                 # 更新间隔（秒）
+```
+
+- 修改 `subscriptions.json`：
+```json
+{
+  "settings": {
+    "hours": 24,     # 默认检查最近24小时的更新
+    "auto_sync": true
+  },
+  "repositories": [
+    {
+      "name": "owner/repo",
+      "hours": 12    # 可选，覆盖默认设置
+    }
+  ]
+}
 ```
 
 ### 使用方法
