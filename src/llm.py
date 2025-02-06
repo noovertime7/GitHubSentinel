@@ -11,14 +11,14 @@ class LLM:
         self.api_key = api_key
         LOG.info(f"Initializing LLM with API key: {api_key[:10]}...")  # 只打印前10个字符，保护密钥安全
         openai.api_key = self.api_key
-        openai.api_base="https://ark.cn-beijing.volces.com/api/v3"
+        openai.api_base="http://localhost:11434/v1/"
 
     def generate(self, markdown_content):
         try:
             prompt = f"以下是项目的最新进展，根据功能合并同类项，形成一份简报，至少包含：项目基本信息、新增功能、主要改进、修复问题；:\n\n{markdown_content}"
             # prompt = "你好"
             response = openai.ChatCompletion.create(
-                model="ep-20250204164421-6np9l",
+                model="deepseek-r1:7b",
                 messages=[
                     {"role": "user", "content": prompt}
                 ]

@@ -1,6 +1,6 @@
 from datetime import datetime,date
 from pkg.log import LOG
-from src.file_manager import FileManager
+from file_manager import FileManager
 
 class ReportGenerator:
     def __init__(self, llm):
@@ -48,7 +48,7 @@ class ReportGenerator:
 
         return '\n'.join(lines)
 
-    def generate_daily_report(self, markdown_file_path):
+    def build_ai_report(self, markdown_file_path):
         # 读取原始报告
         with open(markdown_file_path, 'r', encoding='utf-8') as file:
             markdown_content = file.read()
@@ -58,7 +58,10 @@ class ReportGenerator:
 
         # 保存AI报告
         ai_report_path = self.file_manager.save_ai_report(markdown_file_path, report)
-        LOG.info(f"推理成功 保存到文件： {ai_report_path}")
+        if ai_report_path:
+            LOG.info(f"推理成功 保存到文件： {ai_report_path}")
+            return report,ai_report_path
+        return None
 
     def parse_section(self, content, section):
         lines = content.split("\n")

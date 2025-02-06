@@ -31,7 +31,8 @@ class SubscriptionManager:
 
     def get_subscriptions(self):
         """获取所有订阅的仓库名称"""
-        return [repo["name"] for repo in self.config["repositories"]]
+        data=  [repo["name"] for repo in self.config["repositories"]]
+        return data
 
     def get_repo_config(self, repo_name):
         """获取特定仓库的配置"""
