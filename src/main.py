@@ -47,7 +47,7 @@ def main():
     try:
         LOG.info(f"Loading config: API_KEY={settings.api_key[:10]}...")  # 只打印前10个字符
         github_client = GitHubClient(settings.github_token)
-        notifier = Notifier(settings.notification_settings)
+        notifier = Notifier(settings.email)
         llm = LLM(settings.api_key)
         report_generator = ReportGenerator(llm)
         subscription_manager = SubscriptionManager(settings.subscriptions_file)

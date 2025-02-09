@@ -26,6 +26,8 @@ class Scheduler:
                 LOG.info(f"Fetching updates for {repo} (last {hours} hours)")
                 updates = self.github_client.fetch_updates(repo, since=since_iso)
                 markdown_file_path = self.report_generator.export_daily_progress(repo, updates)
-                self.report_generator.build_ai_report(markdown_file_path)
+                report ,report_path =self.report_generator.build_ai_report(markdown_file_path)
+
+                self.notifier.notify(repo, report)
             
             time.sleep(self.interval)

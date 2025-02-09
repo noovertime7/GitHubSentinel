@@ -13,7 +13,8 @@ required_settings = [
     'api_key',
     'update_interval',
     'notification_settings',
-    'subscriptions_file'
+    'subscriptions_file',
+    'email'
 ]
 
 for setting in required_settings:
