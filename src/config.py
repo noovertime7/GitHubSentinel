@@ -12,9 +12,10 @@ required_settings = [
     'github_token',
     'api_key',
     'update_interval',
-    'notification_settings',
     'subscriptions_file',
-    'email'
+    'email',
+    "freq_days",
+    "exec_time"
 ]
 
 for setting in required_settings:
