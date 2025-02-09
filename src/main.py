@@ -48,7 +48,7 @@ def main():
     LOG.info(f"Loading config: API_KEY={settings.api_key[:10]}...")  # 只打印前10个字符
 
  # 启动时立即执行（如不需要可注释）
- #    github_job(subscription_manager, github_client, report_generator, notifier)
+    github_job(subscription_manager, github_client, report_generator, notifier)
 
     # 安排每天的定时任务
     schedule.every(1).days.at(
